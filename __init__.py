@@ -4,6 +4,10 @@
 # GitHub
 # https://github.com/Korchy/blender-replica
 
+from .addon import Addon
+from . import replica
+from . import replica_panel
+
 
 bl_info = {
     'name': 'Replica',
@@ -17,17 +21,19 @@ bl_info = {
     'description': 'Mesh replication'
 }
 
-from . import replica
-from . import replica_panel
 
 def register():
-    replica.register()
-    replica_panel.register()
+    if not Addon.dev_mode():
+        replica.register()
+        replica_panel.register()
+    else:
+        print('It seems you are trying to use the dev version of the ' + bl_info['name'] + ' add-on. It may work not properly. Please download and use the release version!')
 
 
 def unregister():
-    replica.unregister()
-    replica_panel.unregister()
+    if not Addon.dev_mode():
+        replica.unregister()
+        replica_panel.unregister()
 
 
 if __name__ == '__main__':
